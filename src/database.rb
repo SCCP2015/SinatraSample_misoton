@@ -9,21 +9,23 @@ class Database
    if File.exist?(DATA_FILE) and word
       data = File.read(DATA_FILE)
       File.write(DATA_FILE, data + word + "\n")
-      data + word
+      data + word + "\n"
     else
       File.write(DATA_FILE, word + "\n")
-      word
+      word + "\n"
     end
   end
 
   def cleanData()
     File.write(DATA_FILE, "") 
-    "\n"
+    ""
   end
 
   def readData()
     if File.exist?(DATA_FILE)
-      File.read(DATA_FILE) + "\n"
+      File.read(DATA_FILE)
+    else
+      ""
     end
   end
 end
