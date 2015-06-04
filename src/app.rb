@@ -1,4 +1,5 @@
 require "sinatra/base"
+require "sinatra/json"
 require "sinatra/reloader"
 require "data_mapper"
 require_relative "word"
@@ -16,18 +17,15 @@ class MainApp < Sinatra::Base
   end
 
   get '/words' do
-    words = Word.all.map do |word|
-     word.id.to_s + ": #{word.msg}" 
-    end
-    "[id: msg]\n" + words.join(', ') + "\n"
+    json(Word.all)
   end
 
   get '/words/:id' do
     word = Word.get(params['id'])
     if word then
-      "id: #{word.id}, msg: #{word.msg}\n"
+      json(word)
     else
-      "#{word.id} is not found.\n"
+      json(error: "#{word.id} is not found.\n")
     end
   end
   
@@ -39,19 +37,19 @@ class MainApp < Sinatra::Base
   put '/words/:id' do
     word = Word.get(params[:id])
     if word then
-      "false"
-    else
       word.update(msg: request.body.gets)
       "true"
+    else
+      "false"
     end
   end
 
   delete '/words/:id' do
     word = Word.get(params[:id])
     if word then
-      "false" 
-    else
       word.destroy.to_s
+    else
+      "false"
     end
   end
 end
