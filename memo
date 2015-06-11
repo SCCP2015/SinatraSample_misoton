@@ -1,0 +1,23 @@
+tweet
+- id
+- user_id
+- body
+- time
+
+user
+- id
+- user_id
+- name
+- last_login
+- time
+
+follow
+- id
+- user_id
+- follow
+
+session
+- id
+- user_id
+- token
+- time
