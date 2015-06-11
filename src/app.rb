@@ -29,7 +29,8 @@ class MainApp < Sinatra::Base
   end
 
   post '/generateToken' do
-    json(User.all)
+    body = JSON.parse(request.body.gets)
+    ret = UserUtil.generateToken(body[:id])
     # generate token string from random function.
     # if it token don't exist, add token record to token_table.
     # error: user token still live.
