@@ -8,8 +8,9 @@ require_relative "user"
 require_relative "tweet"
 require_relative "follow"
 require_relative "token"
+require_relative "static_response"
 
-require_relative "user_util"
+require_relative "app_util"
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, 'postgres://vagrant:vagrant@localhost/myapp')
@@ -19,8 +20,16 @@ class MainApp < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  get '/index' do
+    @obj = {:title => "Hello"}
+    erb :index
+  end
+
   post '/signup' do
     body = JSON.parse(request.body.gets)
+    if !body[:id] && !body[:name] then
+      return StaticResponse.PresentationError
+    end
     i = UserUtil.signupUser(body[:id], body[:name])
     json(i)
     # add user to user_table.
@@ -70,7 +79,7 @@ class MainApp < Sinatra::Base
     # get user list was folloed for :user_id.
     # error: user_id is not signuped, number of follower equals 0.
   end
-
+=begin
   get '/words' do
     json(Word.all)
   end
@@ -83,12 +92,12 @@ class MainApp < Sinatra::Base
       json(error: "#{word.id} is not found.\n")
     end
   end
-  
+
   post '/words' do
     word = Word.create(msg: request.body.gets)
     word.id.to_s
   end
-  
+
   put '/words/:id' do
     word = Word.get(params[:id])
     if word then
@@ -107,4 +116,5 @@ class MainApp < Sinatra::Base
       "false"
     end
   end
+=end
 end
