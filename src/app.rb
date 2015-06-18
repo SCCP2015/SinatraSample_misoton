@@ -3,11 +3,8 @@ require "sinatra/json"
 require "sinatra/reloader"
 require "data_mapper"
 require "json"
-require_relative "word"
 require_relative "user"
 require_relative "tweet"
-require_relative "follow"
-require_relative "token"
 require_relative "static_response"
 
 require_relative "app_util"
@@ -26,95 +23,35 @@ class MainApp < Sinatra::Base
   end
 
   post '/signup' do
-    body = JSON.parse(request.body.gets)
-    if !body[:id] && !body[:name] then
+    if !params[:user_id] || !params[:password] then
       return StaticResponse.PresentationError
     end
-    i = UserUtil.signupUser(body[:id], body[:name])
-    json(i)
+    AppUtil.registUser(params[:user_id], params[:password])
+    json(params)
     # add user to user_table.
     # detail is read from request body.
     # error: no body, user exist.
   end
 
-  post '/generateToken' do
-    body = JSON.parse(request.body.gets)
-    ret = UserUtil.generateToken(body[:id])
-    # generate token string from random function.
-    # if it token don't exist, add token record to token_table.
-    # error: user token still live.
+  get '/timeline' do
+    AppUtil.loadTimeline() 
   end
 
-  get '/user_tweets/:user_id' do
-    # select tweet list that post with only one user.
-    # error: user_id is not signuped, tweet is not found.
-  end
-
-  get '/tweets/:user_id' do
-    # select tweet  list that post with :user_id was followed user.
-    # error: user_id is not signuped, twet is not found.
-  end
-
-  get '/user/:userid' do
-    # get :user_id's detail.
-    # error: user_id is not signuped.
-  end
-
-  get '/tweetdetail/:tweet_id' do
-    # get tweet detail that time and user_id.
-    # error: :tweet_id is not available.
-  end
-
-  get '/timeline/:user_id' do
-    # select tweet list that post with :user_id was followed user.
-    # error: user_id is not signuped, tweet is not found.
-  end
-
-  get '/follows/:user_id' do
-    # get user list was followed by :user_id.
-    # error: :user_id is not signuped, number of follow equals 0.
-  end
-
-  get '/followers/:user_id' do
-    # get user list was folloed for :user_id.
-    # error: user_id is not signuped, number of follower equals 0.
-  end
-=begin
-  get '/words' do
-    json(Word.all)
-  end
-
-  get '/words/:id' do
-    word = Word.get(params['id'])
-    if word then
-      json(word)
+  post '/signin' do
+  
+    user = AppUtil.signin(params[:user_id], params[:password])
+    if user != nil then
+      json({user_id: user[:user_id], password: user[:password]})
     else
-      json(error: "#{word.id} is not found.\n")
+      json({user_id: "", password: ""})
     end
   end
 
-  post '/words' do
-    word = Word.create(msg: request.body.gets)
-    word.id.to_s
-  end
-
-  put '/words/:id' do
-    word = Word.get(params[:id])
-    if word then
-      word.update(msg: request.body.gets)
-      "true"
-    else
-      "false"
+  post '/tweet' do
+    if AppUtil.signin(params[:user_id], params[:password]) == nil then
+       return json({user_id: "", password: ""})
     end
-  end
+    AppUtil.registTweet(params[:user_id], params[:body], params[:time])
 
-  delete '/words/:id' do
-    word = Word.get(params[:id])
-    if word then
-      word.destroy.to_s
-    else
-      "false"
-    end
   end
-=end
 end

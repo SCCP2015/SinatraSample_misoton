@@ -5,8 +5,7 @@ class User
 
   property :id, Serial
   property :user_id, String
-  property :name, String
-  property :time, String
+  property :password, String
 end
 
 DataMapper.finalize
