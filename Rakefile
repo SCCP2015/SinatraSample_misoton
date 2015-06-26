@@ -9,7 +9,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 task 'db:migrate' do
   DataMapper::Logger.new($stdout, :debug)
-  DataMapper.setup(:default, 'postgres://vagrant:vagrant@localhost/miso')
+  DataMapper.setup(:default, 'postgres://postgres:postgres@localhost/miso')
   DataMapper.auto_upgrade!
   self
 end

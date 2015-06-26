@@ -10,7 +10,7 @@ require_relative "static_response"
 require_relative "app_util"
 
 DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, 'postgres://vagrant:vagrant@localhost/myapp')
+DataMapper.setup(:default, 'postgres://admin:admin@localhost/myapp')
 
 class MainApp < Sinatra::Base
   configure :development do
