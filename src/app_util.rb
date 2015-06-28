@@ -12,8 +12,15 @@ module AppUtil extend self
   end
 
   def signIn(user_id, password)
-    user = User.first(userid: user_id)
-    return user
+    user = User.last(user_id: user_id)
+    if user == nil
+      return {user_id: "", password: ""}
+    end
+    if user.password == password
+      return {user_id: user.user_id, password: password} 
+    else
+      return {user_id: "", password: ""}
+    end
   end
 
   def loadTimeline(num)

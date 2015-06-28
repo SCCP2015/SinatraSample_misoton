@@ -17,11 +17,6 @@ class MainApp < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  get '/index' do
-    @obj = {:title => "Hello"}
-    erb :index
-  end
-
   post '/signup' do
     if !params[:user_id] || !params[:password] then
       return StaticResponse.PresentationError
@@ -34,12 +29,12 @@ class MainApp < Sinatra::Base
   end
 
   get '/timeline' do
-    AppUtil.loadTimeline() 
+    json(AppUtil.loadTimeline(params[:tweet_num])) 
   end
 
   post '/signin' do
   
-    user = AppUtil.signin(params[:user_id], params[:password])
+    user = AppUtil.signIn(params[:user_id], params[:password])
     if user != nil then
       json({user_id: user[:user_id], password: user[:password]})
     else
@@ -48,10 +43,10 @@ class MainApp < Sinatra::Base
   end
 
   post '/tweet' do
-    if AppUtil.signin(params[:user_id], params[:password]) == nil then
+    if AppUtil.signIn(params[:user_id], params[:password]) == nil then
        return json({user_id: "", password: ""})
     end
     AppUtil.registTweet(params[:user_id], params[:body], params[:time])
-
+    return json({user_id: params[:user_id], password: params[:password]})
   end
 end
