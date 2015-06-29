@@ -21,8 +21,8 @@ class MainApp < Sinatra::Base
     if !params[:user_id] || !params[:password] then
       return StaticResponse.PresentationError
     end
-    AppUtil.registUser(params[:user_id], params[:password])
-    json(params)
+    user = AppUtil.registUser(params[:user_id], params[:password])
+    json(user)
     # add user to user_table.
     # detail is read from request body.
     # error: no body, user exist.
@@ -35,7 +35,7 @@ class MainApp < Sinatra::Base
   post '/signin' do
   
     user = AppUtil.signIn(params[:user_id], params[:password])
-    if user != nil then
+    if user[:password] != "" then
       json({user_id: user[:user_id], password: user[:password]})
     else
       json({user_id: "", password: ""})

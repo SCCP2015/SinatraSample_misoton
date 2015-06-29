@@ -4,7 +4,13 @@ require_relative "tweet"
 module AppUtil extend self
 
   def registUser(user_id, password)
-    User.create(user_id: user_id, password: password) 
+    user = signIn(user_id, password)
+    if user[:user_id] == ""
+       User.create(user_id: user_id, password: password) 
+      return {user_id: user_id, password: password}
+    else
+      return {user_id: "", password: ""}
+    end
   end
 
   def registTweet(user_id, body, time)
@@ -19,7 +25,7 @@ module AppUtil extend self
     if user.password == password
       return {user_id: user.user_id, password: password} 
     else
-      return {user_id: "", password: ""}
+      return {user_id: user_id, password: ""}
     end
   end
 
