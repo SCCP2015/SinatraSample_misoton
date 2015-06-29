@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/tweet_margin">
+
+    <TextView
+        android:id="@+id/tweet_item_id_thumbnail_text_view"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:textSize="@dimen/tweet_id_thumbnail_text_size" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tweet"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tweet_item_body_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/tweet_margin"
+            android:text="@string/hello_world"
+            android:textColor="#000"
+            android:textSize="@dimen/tweet_body_text_size" />
+
+        <TextView
+            android:id="@+id/tweet_item_id_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/tweet_margin"
+            android:text="@string/hello_world"
+            android:textSize="@dimen/tweet_id_text_size" />
+
+    </LinearLayout>
+
+</LinearLayout>

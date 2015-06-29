@@ -1,0 +1,58 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.misoton.misotter.TimelineActivity">
+
+    <TextView
+        android:id="@+id/timeline_now_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/activity_button_margin"
+        android:text="@string/message_loading" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/timeline_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@color/window_background_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="@dimen/tweet_padding"
+            android:layout_weight="0"
+            android:background="#fff"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/timeline_tweet_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:inputType="textAutoComplete"
+                android:lines="5"
+                android:singleLine="false" />
+
+            <ImageView
+                android:id="@+id/timeline_tweet_bt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitCenter"
+                android:src="@drawable/paper_plane" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

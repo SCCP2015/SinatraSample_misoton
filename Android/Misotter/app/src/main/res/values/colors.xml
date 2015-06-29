@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_color">#CDDC39</color>
+    <color name="main_dark_color">#304000</color>
+    <color name="main_text_color">#330</color>
+    <color name="main_light_text_color">#fff</color>
+    <color name="navigation_bar_color">#304000</color>
+    <color name="action_bar_text_color">#eec</color>
+    <color name="window_background_color">#fffff8</color>
+</resources>
