@@ -30,7 +30,10 @@ module AppUtil extend self
   end
 
   def loadTimeline(num)
-    Tweet.all
+    Tweet.all(:limit => num.to_i, :order => [ :id.desc ])
   end
 
+  def registToken(user_id, token)
+    Uuid.create(user_id, token)
+  end
 end
